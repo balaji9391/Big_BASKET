@@ -26,8 +26,8 @@ function App() {
       <div className="navbar" >
         <div className="logo">🛒 Big Basket</div>
         <div className="links">
-          <Link to="/">🏠 Home</Link>
-          <Link to="/veg">🥦 Veg</Link>
+          <Link to="/" >🏠 Home</Link>
+          <Link to="/veg" >🥦 Veg</Link>
           <Link to="/nonveg">🍗 Non-Veg</Link>
           <Link to="/drinks">🥛 Drinks</Link>
           <Link to="/chocolate">🍫 Chocolates</Link>
