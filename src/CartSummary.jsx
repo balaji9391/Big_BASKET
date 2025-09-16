@@ -156,7 +156,7 @@ function CartSummary({ cartItems, total }) {
         <div className="qr-code-box">
           <p>Scan to Pay:</p>
           <QRCode
-            value={`upi://pay?pa=9391732731@axl&pn=MyShop&am=${finalPrice.toFixed(2)}&cu=INR&tn=${orderId}`}
+            value={`upi://pay?pa=9391732731@axl&pn=Big-Bascek&am=${finalPrice.toFixed(2)}&cu=INR&tn=${orderId}`}
             size={140}
           />
         </div>
