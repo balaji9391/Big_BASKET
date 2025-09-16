@@ -5,8 +5,10 @@ import QRCode from "react-qr-code";
 import { calculateButtonDiscount, getcoupondiscount } from "./discountUtils";
 import { clearCart, addOrder } from "./store";
 import "./CartSummary.css";
+import { useNavigate } from "react-router-dom";
 
 function CartSummary({ cartItems, total }) {
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const [discount, setDiscount] = useState(0);
   const [couponCode, setCouponCode] = useState("");
@@ -58,6 +60,7 @@ function CartSummary({ cartItems, total }) {
       alert("⚠️ Please enter a valid email address");
       return;
     }
+    navigate("/signup");
 
     emailjs
       .send(
