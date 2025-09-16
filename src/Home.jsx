@@ -1,85 +1,100 @@
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart } from "./store"; 
+import { addToCart } from "./store";
 import "./home.css";
 
-import "./Navbar.css";
-import "./index.css";
-
-
-// Utility: Split text into spans for animation
-function AnimatedText({ text, animation = "one" }) {
-  return (
-    <div className={`animate ${animation}`}>
-      {text.split("").map((char, index) => (
-        <span key={index}>
-          {char === " " ? "\u00A0" : char} {/* preserve spaces */}
-        </span>
-      ))}
-    </div>
-  );
-}
+// ✅ Import Swiper
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 function Home() {
   const dispatch = useDispatch();
 
-  // Fetch products
+  // ✅ Fetch products from Redux store
   const vegItems = useSelector((state) => state.prod.veg);
   const nonVegItems = useSelector((state) => state.prod.nonveg);
   const chocolates = useSelector((state) => state.prod.chocolates);
   const milkItems = useSelector((state) => state.prod.drinks);
 
-  // Helper function to render category rows
-  const renderRow = (title, items) => (
-    <div className="category-row">
+  // ✅ Reusable function to render product carousels
+  const renderCarousel = (title, items) => (
+    <section className="products">
       <h2>{title}</h2>
-      <div className="row-scroll">
+      <Swiper
+        modules={[Navigation, Pagination, Autoplay]}
+        spaceBetween={20}
+        slidesPerView={5}
+        navigation
+        pagination={{ clickable: true }}
+        autoplay={{ delay: 1000, disableOnInteraction: false }}
+        loop={true}
+        /* breakpoints={{
+          0: { slidesPerView: 1 },
+          600: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 },
+          1024: { slidesPerView: 4 },
+          1280: { slidesPerView: 5 },
+          1440: { slidesPerView: 6 },
+        }} */
+      >
         {items.map((product) => (
-          <div key={product.id} className="card">
-            <div className="image-container">
+          <SwiperSlide key={product.id}>
+            <div className="product-card">
               <img src={product.imageurl} alt={product.Name} />
-            </div>
-            <div className="card-body">
-              <h3 className="card-title">{product.Name}</h3>
-              <p className="card-text">Fresh and high quality</p>
-              <h4 className="price-tag">₹{product.price}</h4>
+              <h3>{product.Name}</h3>
+              <p className="price">₹{product.price}</p>
               <button
-                className="btn-success"
+                className="add-btn"
                 onClick={() => dispatch(addToCart(product))}
               >
                 Add to Cart
               </button>
             </div>
-          </div>
+          </SwiperSlide>
         ))}
-      </div>
-    </div>
+      </Swiper>
+    </section>
   );
 
   return (
     <>
-      {/* ✅ Hero Section with Video Background */}
+      {/* ✅ Hero Section */}
       <div className="hero-container">
-        <video autoPlay loop muted playsInline className="bg-video">
-          <source src="/videos/bgHome.mp4" type="video/webm" />
-        </video>
+  {/* Left: Video */}
+  <div className="hero-video">
+    <video autoPlay loop muted playsInline>
+      <source src="/videos/bgHome.mp4" type="video/mp4" />
+    </video>
+  </div>
 
-        {/* ✅ Text + Button on top of video */}
-        <div className="hero-content">
-          <AnimatedText text="Welcome to Big Basket" animation="four" />
-          <button
-            className="shop-btn"
-            onClick={() => window.scrollTo({ top: 400, behavior: "smooth" })}
-          >
-            Shop Now
-          </button>
-        </div>
-      </div>
+  {/* Right: Text + Button */}
+  <div className="hero-content">
+    <h1 className="animate">
+      <h2>Welcome to  🛒</h2>
+    
+  <span>B</span>
+  <span>i</span>
+  <span>g</span>
+  <span> </span>
+  <span>B</span>
+  <span>a</span>
+  <span>s</span>
+  <span>k</span>
+  <span>e</span>
+  <span>t</span>
+</h1><br /><br />
+    <p>We are passionate about bringing fresh vegetables, high-quality dairy, chocolates, and non-veg items directly to your doorstep.</p>
+  </div>
+</div>
 
-      {/* ✅ Product Sections */}
-      {renderRow("Vegetables", vegItems)}
-      {renderRow("Non-Veg", nonVegItems)}
-      {renderRow("Chocolates", chocolates)}
-      {renderRow("Milk & Drinks", milkItems)}
+
+      {/* ✅ Product Carousels */}
+      {renderCarousel("Vegetables", vegItems)}
+      {renderCarousel("Non-Veg", nonVegItems)}
+      {renderCarousel("Chocolates", chocolates)}
+      {renderCarousel("Milk & Drinks", milkItems)}
     </>
   );
 }
